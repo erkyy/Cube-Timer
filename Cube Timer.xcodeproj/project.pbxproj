@@ -7,21 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C42B1BA1ED1E4C600D767C2 /* SettingsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42B1B91ED1E4C600D767C2 /* SettingsTVC.swift */; };
+		7C42B1DD1ED219AB00D767C2 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42B1DC1ED219AB00D767C2 /* Keys.swift */; };
 		7CED40471ECED2A6000E4694 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED40461ECED2A6000E4694 /* AppDelegate.swift */; };
-		7CED40491ECED2A6000E4694 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED40481ECED2A6000E4694 /* ViewController.swift */; };
 		7CED404C1ECED2A6000E4694 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CED404A1ECED2A6000E4694 /* Main.storyboard */; };
 		7CED404E1ECED2A6000E4694 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CED404D1ECED2A6000E4694 /* Assets.xcassets */; };
 		7CED40511ECED2A6000E4694 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CED404F1ECED2A6000E4694 /* LaunchScreen.storyboard */; };
+		7CED40591ECED2DD000E4694 /* StatisticsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED40581ECED2DD000E4694 /* StatisticsTVC.swift */; };
+		7CED405B1ECED2EE000E4694 /* TimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED405A1ECED2EE000E4694 /* TimerVC.swift */; };
+		7CED405D1ECED34E000E4694 /* Identifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED405C1ECED34E000E4694 /* Identifiers.swift */; };
+		7CED405F1ECED3F4000E4694 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED405E1ECED3F4000E4694 /* Globals.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7C42B1B91ED1E4C600D767C2 /* SettingsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTVC.swift; sourceTree = "<group>"; };
+		7C42B1DC1ED219AB00D767C2 /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		7CED40431ECED2A6000E4694 /* Cube Timer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cube Timer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CED40461ECED2A6000E4694 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7CED40481ECED2A6000E4694 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7CED404B1ECED2A6000E4694 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7CED404D1ECED2A6000E4694 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CED40501ECED2A6000E4694 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7CED40521ECED2A6000E4694 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CED40581ECED2DD000E4694 /* StatisticsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsTVC.swift; sourceTree = "<group>"; };
+		7CED405A1ECED2EE000E4694 /* TimerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerVC.swift; sourceTree = "<group>"; };
+		7CED405C1ECED34E000E4694 /* Identifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifiers.swift; sourceTree = "<group>"; };
+		7CED405E1ECED3F4000E4694 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +45,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C42B1B61ED1E48E00D767C2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		7C42B1B71ED1E49300D767C2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		7C42B1B81ED1E49A00D767C2 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7CED40581ECED2DD000E4694 /* StatisticsTVC.swift */,
+				7CED405A1ECED2EE000E4694 /* TimerVC.swift */,
+				7C42B1B91ED1E4C600D767C2 /* SettingsTVC.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		7C42B1BB1ED1E4D200D767C2 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				7CED405C1ECED34E000E4694 /* Identifiers.swift */,
+				7CED405E1ECED3F4000E4694 /* Globals.swift */,
+				7C42B1DC1ED219AB00D767C2 /* Keys.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		7CED403A1ECED2A5000E4694 = {
 			isa = PBXGroup;
 			children = (
@@ -55,7 +99,10 @@
 			isa = PBXGroup;
 			children = (
 				7CED40461ECED2A6000E4694 /* AppDelegate.swift */,
-				7CED40481ECED2A6000E4694 /* ViewController.swift */,
+				7C42B1BB1ED1E4D200D767C2 /* Helpers */,
+				7C42B1B61ED1E48E00D767C2 /* Model */,
+				7C42B1B71ED1E49300D767C2 /* View */,
+				7C42B1B81ED1E49A00D767C2 /* Controller */,
 				7CED404A1ECED2A6000E4694 /* Main.storyboard */,
 				7CED404D1ECED2A6000E4694 /* Assets.xcassets */,
 				7CED404F1ECED2A6000E4694 /* LaunchScreen.storyboard */,
@@ -136,8 +183,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CED40491ECED2A6000E4694 /* ViewController.swift in Sources */,
 				7CED40471ECED2A6000E4694 /* AppDelegate.swift in Sources */,
+				7CED405F1ECED3F4000E4694 /* Globals.swift in Sources */,
+				7CED405B1ECED2EE000E4694 /* TimerVC.swift in Sources */,
+				7CED405D1ECED34E000E4694 /* Identifiers.swift in Sources */,
+				7C42B1DD1ED219AB00D767C2 /* Keys.swift in Sources */,
+				7C42B1BA1ED1E4C600D767C2 /* SettingsTVC.swift in Sources */,
+				7CED40591ECED2DD000E4694 /* StatisticsTVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +349,7 @@
 				7CED40571ECED2A6000E4694 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
