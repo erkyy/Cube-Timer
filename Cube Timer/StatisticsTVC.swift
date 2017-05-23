@@ -15,12 +15,22 @@ class StatisticsTVC: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        print(timesGlobal)
+        roundTimes()
+        
         tableView.reloadData()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+    }
+    
+    func roundTimes() {
+        
+        for var time in timesGlobal {
+            time = Double(round(100*time)/100)
+            print(time)
+        }
         
     }
     
@@ -51,13 +61,12 @@ class StatisticsTVC: UITableViewController {
         allCell.textLabel?.text = String(timesGlobal[indexPath.row])
         allCell.textLabel?.textColor = UIColor.init(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
         allCell.textLabel?.font = UIFont(name: "AvenirNext-Medium", size: 18)
-        allCell.isUserInteractionEnabled = false
         
         return allCell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: false)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

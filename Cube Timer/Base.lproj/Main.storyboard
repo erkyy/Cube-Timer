@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,24 +22,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k8C-5Q-fBc">
-                                <rect key="frame" x="36" y="444.5" width="303" height="103.5"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2 D2" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k8C-5Q-fBc">
+                                <rect key="frame" x="36" y="448" width="303" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="akB-GO-242"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f6G-f8-wfW">
-                                <rect key="frame" x="0.0" y="220" width="375" height="205"/>
+                                <rect key="frame" x="0.0" y="233.5" width="375" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="yrk-Nd-X84"/>
+                                </constraints>
                                 <attributedString key="attributedText">
                                     <fragment content="0">
                                         <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="150" name="AvenirNext-Regular"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
-                                    <fragment content=".0">
+                                    <fragment content=".00">
                                         <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="90" name="AvenirNext-Regular"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -49,9 +57,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="f6G-f8-wfW" secondAttribute="trailing" id="KdT-Xp-PIj"/>
-                            <constraint firstItem="f6G-f8-wfW" firstAttribute="leading" secondItem="Efr-fJ-m69" secondAttribute="leading" id="dp5-Rg-cIG"/>
-                            <constraint firstItem="f6G-f8-wfW" firstAttribute="top" secondItem="phS-vW-ddG" secondAttribute="bottom" constant="200" id="nFw-lY-tDG"/>
+                            <constraint firstItem="GxM-TC-FBo" firstAttribute="top" secondItem="k8C-5Q-fBc" secondAttribute="bottom" constant="70" id="004-rb-Pu2"/>
+                            <constraint firstAttribute="trailing" secondItem="f6G-f8-wfW" secondAttribute="trailing" id="Kyy-cO-5l1"/>
+                            <constraint firstItem="f6G-f8-wfW" firstAttribute="leading" secondItem="Efr-fJ-m69" secondAttribute="leading" id="YJV-UP-dvM"/>
+                            <constraint firstItem="f6G-f8-wfW" firstAttribute="centerY" secondItem="Efr-fJ-m69" secondAttribute="centerY" id="bCw-Hu-ntC"/>
+                            <constraint firstItem="k8C-5Q-fBc" firstAttribute="leading" secondItem="Efr-fJ-m69" secondAttribute="leadingMargin" constant="20" id="dLc-L8-cAX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="k8C-5Q-fBc" secondAttribute="trailing" constant="20" id="wly-tF-bGP"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Timer" image="timer-icon" id="jXp-pt-358"/>

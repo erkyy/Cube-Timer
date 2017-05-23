@@ -23,10 +23,10 @@ class TimerVC: UIViewController {
     var seconds: Int   = 0
     var fractions: Int = 0
     
+    var mutableStopwatchStr = NSMutableAttributedString()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         
         createScreen()
         
@@ -47,7 +47,9 @@ class TimerVC: UIViewController {
             
         } else {
             stopTimer()
+            
             timesGlobal.append(totalSeconds)
+            
             scrambleLbl.isHidden = false
             
         }
@@ -67,6 +69,7 @@ class TimerVC: UIViewController {
         visualTimer.invalidate() //stop
         isRunning = false
         scrambleLbl.text = scrambleMoves(21)
+        
     }
     
     func updateTimer() {
@@ -97,7 +100,15 @@ class TimerVC: UIViewController {
             stopwatchStr = "\(minutesStr):\(secondsStrWith0).\(fractionsStr)"
         }
         
-        let mutableStopwatchStr = NSMutableAttributedString(
+        if totalSeconds < 10 {
+            if stopwatchStr.characters.count > 3 {
+                if stopwatchStr.isEmpty == true {
+                    stopwatchStr.characters.remove(at: stopwatchStr.endIndex)
+                }
+            }
+        }
+        
+        mutableStopwatchStr = NSMutableAttributedString(
             string: stopwatchStr,
             attributes: [NSFontAttributeName:UIFont(
                 name: "AvenirNext-Regular",
@@ -105,29 +116,36 @@ class TimerVC: UIViewController {
         
         mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 0))
         
-        if totalSeconds < 10 {
-            //0.00 to 9.99
-            mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 1))
-            mutableStopwatchStr.replaceCharacters(in: NSRange(location: 3, length: 1), with: "")
-        } else if totalSeconds < 60 {
-            //10.00 to 59.99
-            mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 2))
-            mutableStopwatchStr.replaceCharacters(in: NSRange(location: 4, length: 1), with: "")
-        } else if totalSeconds < 600 {
-            //1:00.30 to 9:59
-            mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 1))
-            mutableStopwatchStr.replaceCharacters(in: NSRange(location: 6, length: 1), with: "")
-        } else if totalSeconds >= 600 {
-            
-            //10:00.34 to 59:59
-            mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 0))
-            mutableStopwatchStr.replaceCharacters(in: NSRange(location: 7, length: 1), with: "")
+        setupTimeLblFontSize()
+        
+        if totalSeconds == 3600 {
+            visualTimer.invalidate()
         }
         
         timeLbl.attributedText = mutableStopwatchStr
         
+        
     }
     
+    func setupTimeLblFontSize() {
+        if totalSeconds < 10 {
+            //0.00 to 9.99
+            mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 1))
+//            mutableStopwatchStr.replaceCharacters(in: NSRange(location: 3, length: 1), with: "")
+        } else if totalSeconds < 60 {
+            //10.00 to 59.99
+            mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 2))
+//            mutableStopwatchStr.replaceCharacters(in: NSRange(location: 4, length: 1), with: "")
+        } else if totalSeconds < 600 {
+            //1:00.0 to 9:59.9
+            mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 1))
+//            mutableStopwatchStr.replaceCharacters(in: NSRange(location: 6, length: 1), with: "")
+        } else if totalSeconds >= 600 {
+            //10:00.0 to 59:59.99
+            mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 2))
+//            mutableStopwatchStr.replaceCharacters(in: NSRange(location: 7, length: 1), with: "")
+        }
+    }
     
     func scrambleMoves(_ length: Int) -> String {
         let moves          = ["B", "D", "F", "L", "R", "U"]
