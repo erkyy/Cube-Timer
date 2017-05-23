@@ -10,20 +10,17 @@ import UIKit
 
 class StatisticsTVC: UITableViewController {
 
+    var averageTimesLabels = ["1:37.12", "4:14.97"]
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        guard let timesKey = UserDefaults.standard.stringArray(forKey: Key.timesKey) else { return }
-        
-        print("Times from UserDefaults: \(timesKey.joined(separator: ", "))")
-        
+        print(timesGlobal)
         tableView.reloadData()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
     }
     
@@ -32,7 +29,6 @@ class StatisticsTVC: UITableViewController {
             let averageCell = UITableViewCell(style: .default, reuseIdentifier: TableViewCellIdentifier.averageCell)
             
             let averageTextHeader = ["Average of 5", "Average of 12"]
-            let averageTimesLabels = ["29.19", "25.52"]
             
             averageCell.textLabel?.text = averageTextHeader[indexPath.row]
             averageCell.textLabel?.font = UIFont(name: "AvenirNext-Regular", size: 17)
@@ -52,10 +48,10 @@ class StatisticsTVC: UITableViewController {
         }
         
         let allCell = UITableViewCell(style: .default, reuseIdentifier: TableViewCellIdentifier.allCell)
-        timesGlobal.reverse()
-        allCell.textLabel?.text = timesGlobal[indexPath.row]
+        allCell.textLabel?.text = String(timesGlobal[indexPath.row])
         allCell.textLabel?.textColor = UIColor.init(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
         allCell.textLabel?.font = UIFont(name: "AvenirNext-Medium", size: 18)
+        allCell.isUserInteractionEnabled = false
         
         return allCell
     }
@@ -89,6 +85,21 @@ class StatisticsTVC: UITableViewController {
             return "Average"
         }
         return "All"
+    }
+    
+    func stringFromInterval(_ time: TimeInterval) -> String {
+        
+        var result = String(time)
+        
+        if time > 60.0 {
+            let seconds = time.truncatingRemainder(dividingBy: 60)
+            let secondsRounded = Double(round(100*seconds)/100)
+            let minutes = Int((time / 60).truncatingRemainder(dividingBy: 60))
+            result = "\(minutes):\(secondsRounded)"
+        }
+        
+        print(result)
+        return result
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

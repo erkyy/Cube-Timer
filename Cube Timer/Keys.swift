@@ -9,5 +9,5 @@
 import UIKit
 
 enum Key {
-    static let timesKey = "timesKey"
+    static let times = "times"
 }

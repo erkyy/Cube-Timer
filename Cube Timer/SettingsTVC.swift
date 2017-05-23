@@ -24,7 +24,7 @@ class SettingsTVC: UITableViewController {
         }))
         alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (action) in
             timesGlobal.removeAll()
-            UserDefaults.standard.removeObject(forKey: Key.timesKey)
+            UserDefaults.standard.removeObject(forKey: Key.times)
             _ = self.navigationController?.popToRootViewController(animated: true)
             print("removed all times")
         }))
