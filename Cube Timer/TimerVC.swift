@@ -14,6 +14,8 @@ class TimerVC: UIViewController {
     
     @IBOutlet weak var scrambleLbl: UILabel!
     
+    let blackView = UIView()
+    
     var visualTimer    = Timer()
     var isRunning      = false
     
@@ -24,6 +26,25 @@ class TimerVC: UIViewController {
     var fractions: Int = 0
     
     var mutableStopwatchStr = NSMutableAttributedString()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        setupTimerColor()
+    }
+    
+    func setupTimerColor() {
+        let random = CGFloat(arc4random_uniform(255))
+        
+        var colors: [CGFloat] = [0, 255, random]
+        colors.shuffle()
+        
+        let r = colors[0] / 255
+        let g = colors[1] / 255
+        let b = colors[2] / 255
+        
+        view.backgroundColor = UIColor(red: r, green: g, blue: b, alpha: 1)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,18 +62,74 @@ class TimerVC: UIViewController {
     }
     
     func handleStopwatch() {
+        
+        changeTimerColor()
+        
         if isRunning == false {
             startVisualTimer()
-            scrambleLbl.isHidden = true
             
+            scrambleLbl.isHidden = true
+
         } else {
             stopTimer()
             
             timesGlobal.append(totalSeconds)
-            
             scrambleLbl.isHidden = false
-            
         }
+    }
+    
+    func changeTimerColor() {
+            
+        let random = CGFloat(arc4random_uniform(255))
+            
+        var colors: [CGFloat] = [0, 255, random]
+            
+        colors.shuffle()
+            
+        let r = colors[0] / 255
+        let g = colors[1] / 255
+        let b = colors[2] / 255
+            
+        let randomColor = UIColor(red: r, green: g, blue: b, alpha: 1)
+        
+        if let window = UIApplication.shared.keyWindow {
+            blackView.frame = window.frame
+            blackView.backgroundColor = UIColor(white: 1, alpha: 0.6)
+            blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleStopwatch)))
+            blackView.alpha = 0
+            
+            view.addSubview(blackView)
+            view.bringSubview(toFront: timeLbl)
+        
+        if isRunning == true {
+            UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                
+                self.view.backgroundColor = randomColor
+                self.blackView.alpha = 0
+            }, completion: nil)
+
+        } else {
+            UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+
+                self.blackView.alpha = 1
+            }, completion: nil)
+        }
+        
+    
+        }
+    }
+    
+    func dismissHalfBlack() {
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.blackView.alpha = 0
+        }, completion: nil)
+    }
+    
+    func fadeToRandomColor(_ color: UIColor, animation: UIViewAnimationOptions) {
+        
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: animation, animations: {
+            self.view.backgroundColor = color
+        }, completion: nil)
     }
     
     func startVisualTimer() {
@@ -100,13 +177,7 @@ class TimerVC: UIViewController {
             stopwatchStr = "\(minutesStr):\(secondsStrWith0).\(fractionsStr)"
         }
         
-        if totalSeconds < 10 {
-            if stopwatchStr.characters.count > 3 {
-                if stopwatchStr.isEmpty == true {
-                    stopwatchStr.characters.remove(at: stopwatchStr.endIndex)
-                }
-            }
-        }
+        stopwatchStr.remove(at: stopwatchStr.index(before: stopwatchStr.endIndex))
         
         mutableStopwatchStr = NSMutableAttributedString(
             string: stopwatchStr,
@@ -131,19 +202,18 @@ class TimerVC: UIViewController {
         if totalSeconds < 10 {
             //0.00 to 9.99
             mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 1))
-//            mutableStopwatchStr.replaceCharacters(in: NSRange(location: 3, length: 1), with: "")
+
         } else if totalSeconds < 60 {
             //10.00 to 59.99
             mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 2))
-//            mutableStopwatchStr.replaceCharacters(in: NSRange(location: 4, length: 1), with: "")
+
         } else if totalSeconds < 600 {
             //1:00.0 to 9:59.9
             mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 1))
-//            mutableStopwatchStr.replaceCharacters(in: NSRange(location: 6, length: 1), with: "")
+
         } else if totalSeconds >= 600 {
             //10:00.0 to 59:59.99
             mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 2))
-//            mutableStopwatchStr.replaceCharacters(in: NSRange(location: 7, length: 1), with: "")
         }
     }
     

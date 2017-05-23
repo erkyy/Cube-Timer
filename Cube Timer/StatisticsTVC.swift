@@ -10,13 +10,14 @@ import UIKit
 
 class StatisticsTVC: UITableViewController {
 
-    var averageTimesLabels = ["1:37.12", "4:14.97"]
+    var timesStringArr = [String]()
+    
+    var averageTimesLabels = ["--", "--"]
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
         roundTimes()
-        
         tableView.reloadData()
     }
 
@@ -29,7 +30,8 @@ class StatisticsTVC: UITableViewController {
         
         for var time in timesGlobal {
             time = Double(round(100*time)/100)
-            print(time)
+            let timeStr = String(time)
+            timesStringArr.append(timeStr)
         }
         
     }
@@ -58,7 +60,7 @@ class StatisticsTVC: UITableViewController {
         }
         
         let allCell = UITableViewCell(style: .default, reuseIdentifier: TableViewCellIdentifier.allCell)
-        allCell.textLabel?.text = String(timesGlobal[indexPath.row])
+        allCell.textLabel?.text = timesStringArr[indexPath.row]
         allCell.textLabel?.textColor = UIColor.init(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
         allCell.textLabel?.font = UIFont(name: "AvenirNext-Medium", size: 18)
         
