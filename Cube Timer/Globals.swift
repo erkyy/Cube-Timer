@@ -8,4 +8,5 @@
 
 import Foundation
 
-var timesGlobal = [TimeInterval]()
+var timesGlobal = [String]()
+var timesModel = [TimeInterval]()

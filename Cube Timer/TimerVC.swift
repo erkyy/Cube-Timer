@@ -2,7 +2,7 @@
 //  TimerVC.swift
 //  Cube Timer
 //
-//  Created by Erik Myhrberg on 2017-05-19.
+//  Created by Erik on 2017-05-19.
 //  Copyright © 2017 Erik. All rights reserved.
 //
 
@@ -24,6 +24,9 @@ class TimerVC: UIViewController {
     var minutes: Int   = 0
     var seconds: Int   = 0
     var fractions: Int = 0
+    var fractionsStr   = ""
+    
+    var stopwatchStr        = ""
     
     var mutableStopwatchStr = NSMutableAttributedString()
     
@@ -39,11 +42,7 @@ class TimerVC: UIViewController {
         var colors: [CGFloat] = [0, 255, random]
         colors.shuffle()
         
-        let r = colors[0] / 255
-        let g = colors[1] / 255
-        let b = colors[2] / 255
-        
-        view.backgroundColor = UIColor(red: r, green: g, blue: b, alpha: 1)
+        view.backgroundColor = UIColor(red: colors[0]/255, green: colors[1]/255, blue: colors[2]/255, alpha: 1)
     }
     
     override func viewDidLoad() {
@@ -51,6 +50,12 @@ class TimerVC: UIViewController {
         
         createScreen()
         
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+        print("Memory warning!")
     }
     
     func createScreen() {
@@ -63,34 +68,55 @@ class TimerVC: UIViewController {
     
     func handleStopwatch() {
         
-        changeTimerColor()
+    
+        handleColorAndDecimals()
         
         if isRunning == false {
             startVisualTimer()
-            
+                
             scrambleLbl.isHidden = true
 
         } else {
             stopTimer()
+            saveTime()
             
-            timesGlobal.append(totalSeconds)
             scrambleLbl.isHidden = false
         }
     }
     
-    func changeTimerColor() {
+    func saveTime() {
+        var savedTimeRounded = String(Double(round(100*totalSeconds))/100)
+        
+        let savedTimeDouble = Double(savedTimeRounded)!
+        
+        if savedTimeDouble > 60.0 {
+            let seconds = savedTimeDouble.truncatingRemainder(dividingBy: 60)
+            let secondsRounded = Double(round(100*seconds)/100)
+            let minutes: Int? = Int((savedTimeDouble / 60).truncatingRemainder(dividingBy: 60))
             
-        let random = CGFloat(arc4random_uniform(255))
+            savedTimeRounded = "\(minutes!):\(secondsRounded)"
             
-        var colors: [CGFloat] = [0, 255, random]
-            
-        colors.shuffle()
-            
-        let r = colors[0] / 255
-        let g = colors[1] / 255
-        let b = colors[2] / 255
-            
-        let randomColor = UIColor(red: r, green: g, blue: b, alpha: 1)
+            if minutes != nil {
+                if seconds < 10.0 {
+                    savedTimeRounded = "\(minutes!):0\(secondsRounded)"
+                }
+            }
+        }
+        
+        //If time is e.g 1:48.2 or 18.7, add a 0 at the end.
+        if let decimals = savedTimeRounded.components(separatedBy: ".").last {
+            if decimals.characters.count < 2 {
+                savedTimeRounded.append("0")
+            }
+        }
+        
+        timesModel.append(totalSeconds)
+        timesGlobal.insert(savedTimeRounded, at: 0)
+        UserDefaults.standard.set(timesGlobal, forKey: Key.times)
+
+    }
+    
+    func handleColorAndDecimals() {
         
         if let window = UIApplication.shared.keyWindow {
             blackView.frame = window.frame
@@ -102,17 +128,14 @@ class TimerVC: UIViewController {
             view.bringSubview(toFront: timeLbl)
         
         if isRunning == true {
-            UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                
-                self.view.backgroundColor = randomColor
-                self.blackView.alpha = 0
-            }, completion: nil)
-
+            view.backgroundColor = UIColor.randomized()
+            blackView.alpha = 0
+            
         } else {
             UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
-
                 self.blackView.alpha = 1
             }, completion: nil)
+            
         }
         
     
@@ -133,6 +156,7 @@ class TimerVC: UIViewController {
     }
     
     func startVisualTimer() {
+        
         minutes      = 0
         seconds      = 0
         fractions    = 0
@@ -166,18 +190,16 @@ class TimerVC: UIViewController {
         }
         
         
-        let fractionsStr      = fractions > 9 ? "\(fractions)" : "0\(fractions)"
+        fractionsStr      = fractions > 9 ? "\(fractions)" : "0\(fractions)"
         let secondsStr        = seconds > 9 ? "\(seconds)" : "\(seconds)"
         let secondsStrWith0   = seconds > 9 ? "\(seconds)" : "0\(seconds)"
         let minutesStr        = minutes > 9 ? "\(minutes)" : "\(minutes)"
         
-        var stopwatchStr = "\(secondsStr).\(fractionsStr)"
+        stopwatchStr = "\(secondsStr).\(fractionsStr)"
         
         if minutesStr != "0" {
             stopwatchStr = "\(minutesStr):\(secondsStrWith0).\(fractionsStr)"
         }
-        
-        stopwatchStr.remove(at: stopwatchStr.index(before: stopwatchStr.endIndex))
         
         mutableStopwatchStr = NSMutableAttributedString(
             string: stopwatchStr,
@@ -190,11 +212,11 @@ class TimerVC: UIViewController {
         setupTimeLblFontSize()
         
         if totalSeconds == 3600 {
-            visualTimer.invalidate()
+            stopTimer()
+            saveTime()
         }
         
         timeLbl.attributedText = mutableStopwatchStr
-        
         
     }
     
@@ -210,10 +232,10 @@ class TimerVC: UIViewController {
         } else if totalSeconds < 600 {
             //1:00.0 to 9:59.9
             mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 1))
-
+            mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 2, length: 2))
         } else if totalSeconds >= 600 {
             //10:00.0 to 59:59.99
-            mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 150)!, range: NSRange(location: 0, length: 2))
+            mutableStopwatchStr.addAttribute(NSFontAttributeName, value: UIFont(name: "AvenirNext-Regular", size: 90)!, range: NSRange(location: 0, length: 7))
         }
     }
     

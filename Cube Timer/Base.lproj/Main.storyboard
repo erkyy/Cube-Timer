@@ -115,6 +115,9 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Ksv-dI-Dto">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="addPressed:" destination="yTC-Vh-6XU" id="r8m-ak-9dZ"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>

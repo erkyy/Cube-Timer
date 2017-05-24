@@ -8,16 +8,18 @@
 
 import UIKit
 
-class StatisticsTVC: UITableViewController {
-
-    var timesStringArr = [String]()
+class StatisticsTVC: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
-    var averageTimesLabels = ["--", "--"]
+    var stringArray = [String]()
+    
+    let minutes = Array(0...59)
+    let seconds = Array(0...59)
+    let deciseconds = Array(0...99)
+    let centiseconds = Array(0...99)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        roundTimes()
         tableView.reloadData()
     }
 
@@ -26,14 +28,52 @@ class StatisticsTVC: UITableViewController {
         
     }
     
-    func roundTimes() {
+    @IBAction func addPressed(_ sender: Any) {
         
-        for var time in timesGlobal {
-            time = Double(round(100*time)/100)
-            let timeStr = String(time)
-            timesStringArr.append(timeStr)
+        let alert = UIAlertController(title: "Add new time", message: nil, preferredStyle: .alert)
+        
+        alert.addTextField { (timeTextField) in
+            timeTextField.placeholder = "Time"
         }
         
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { _ in
+            
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func averageOf(_ of: Int) -> String {
+        
+        var result = "--"
+        
+        if timesGlobal.count >= of {
+            
+            let lastOfSlice: ArraySlice<Double> = timesModel.suffix(of)
+            let resultDouble = Array(lastOfSlice).reduce(0, +) / Double(of)
+            let resultDoubleRounded = Double(round(100*resultDouble)/100)
+            
+            result = String(resultDoubleRounded)
+            
+            if resultDouble > 60.0 {
+                let seconds = resultDouble.truncatingRemainder(dividingBy: 60)
+                let secondsRounded = Double(round(100*seconds)/100)
+                let minutes: Int? = Int((resultDouble / 60).truncatingRemainder(dividingBy: 60))
+                
+                result = "\(minutes!):\(secondsRounded)"
+                
+                if minutes != nil {
+                    if seconds < 10.0 {
+                        result = "\(minutes!):0\(secondsRounded)"
+                    }
+                }
+            }
+        }
+        return result
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -41,6 +81,7 @@ class StatisticsTVC: UITableViewController {
             let averageCell = UITableViewCell(style: .default, reuseIdentifier: TableViewCellIdentifier.averageCell)
             
             let averageTextHeader = ["Average of 5", "Average of 12"]
+            var averageTimesLabels = [averageOf(5), averageOf(12)]
             
             averageCell.textLabel?.text = averageTextHeader[indexPath.row]
             averageCell.textLabel?.font = UIFont(name: "AvenirNext-Regular", size: 17)
@@ -58,9 +99,9 @@ class StatisticsTVC: UITableViewController {
                 
             return averageCell
         }
-        
+    
         let allCell = UITableViewCell(style: .default, reuseIdentifier: TableViewCellIdentifier.allCell)
-        allCell.textLabel?.text = timesStringArr[indexPath.row]
+        allCell.textLabel?.text = timesGlobal[indexPath.row]
         allCell.textLabel?.textColor = UIColor.init(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
         allCell.textLabel?.font = UIFont(name: "AvenirNext-Medium", size: 18)
         
@@ -68,7 +109,7 @@ class StatisticsTVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -98,19 +139,23 @@ class StatisticsTVC: UITableViewController {
         return "All"
     }
     
-    func stringFromInterval(_ time: TimeInterval) -> String {
-        
-        var result = String(time)
-        
-        if time > 60.0 {
-            let seconds = time.truncatingRemainder(dividingBy: 60)
-            let secondsRounded = Double(round(100*seconds)/100)
-            let minutes = Int((time / 60).truncatingRemainder(dividingBy: 60))
-            result = "\(minutes):\(secondsRounded)"
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print(component)
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 4
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if component == 0 {
+            return minutes.count
+        } else if component == 1 {
+            return seconds.count
+        } else if component == 2 {
+            return deciseconds.count
         }
-        
-        print(result)
-        return result
+        return centiseconds.count
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

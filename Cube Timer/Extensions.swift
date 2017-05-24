@@ -6,7 +6,7 @@
 //  Copyright © 2017 Erik. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension Array {
     mutating func shuffle () {
@@ -15,5 +15,12 @@ extension Array {
             let i2 = Int(arc4random_uniform(UInt32(i+1)))
             (self[i1], self[i2]) = (self[i2], self[i1])
         }
+    }
+}
+
+extension UIColor {
+    public static func randomized() -> UIColor {
+        let random = CGFloat(arc4random_uniform(255)) / 255.0
+        return UIColor(hue: random, saturation: 1, brightness: 1, alpha: 1)
     }
 }
