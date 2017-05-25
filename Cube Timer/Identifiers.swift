@@ -12,3 +12,7 @@ enum TableViewCellIdentifier {
     static let averageCell = "averageCell"
     static let allCell = "allCell"
 }
+
+enum SegueIdentifier {
+    static let toTimeDetailVC = "toTimeDetailVC"
+}

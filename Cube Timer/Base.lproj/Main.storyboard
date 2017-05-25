@@ -113,17 +113,17 @@
                                 <segue destination="m54-qL-L4r" kind="show" id="uWf-L3-qGG"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Ksv-dI-Dto">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="MPM-3e-1vX">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="addPressed:" destination="yTC-Vh-6XU" id="r8m-ak-9dZ"/>
-                            </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="rsC-75-iAa" kind="show" identifier="toTimeDetailVC" id="jfx-wI-4GE"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yqp-4A-Yum" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1500" y="515.8920539730135"/>
+            <point key="canvasLocation" x="1558" y="516"/>
         </scene>
         <!--SettingsTVC-->
         <scene sceneID="UkP-M9-SoY">
@@ -200,6 +200,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uxB-Gx-7oN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2318" y="242"/>
+        </scene>
+        <!--Title-->
+        <scene sceneID="z67-wp-40W">
+            <objects>
+                <viewController storyboardIdentifier="TimeDetailVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rsC-75-iAa" customClass="TimeDetailVC" customModule="Cube_Timer" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6ik-Mn-SqS"/>
+                        <viewControllerLayoutGuide type="bottom" id="Fqo-MM-2fP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dkU-Do-rJm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Title" id="hjq-TQ-BaU"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MoX-fc-Aci" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2318" y="892"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="a9Z-Wv-DYx">

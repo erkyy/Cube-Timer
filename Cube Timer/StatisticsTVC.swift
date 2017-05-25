@@ -8,14 +8,9 @@
 
 import UIKit
 
-class StatisticsTVC: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class StatisticsTVC: UITableViewController, UITextFieldDelegate {
     
     var stringArray = [String]()
-    
-    let minutes = Array(0...59)
-    let seconds = Array(0...59)
-    let deciseconds = Array(0...99)
-    let centiseconds = Array(0...99)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -25,26 +20,12 @@ class StatisticsTVC: UITableViewController, UIPickerViewDelegate, UIPickerViewDa
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        let editBtn = editButtonItem
+        editBtn.tintColor = UIColor.white
         
-    }
-    
-    @IBAction func addPressed(_ sender: Any) {
+        self.navigationItem.rightBarButtonItem = editBtn
         
-        let alert = UIAlertController(title: "Add new time", message: nil, preferredStyle: .alert)
-        
-        alert.addTextField { (timeTextField) in
-            timeTextField.placeholder = "Time"
-        }
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-            
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { _ in
-            
-        }))
-        
-        self.present(alert, animated: true, completion: nil)
     }
     
     func averageOf(_ of: Int) -> String {
@@ -101,6 +82,7 @@ class StatisticsTVC: UITableViewController, UIPickerViewDelegate, UIPickerViewDa
         }
     
         let allCell = UITableViewCell(style: .default, reuseIdentifier: TableViewCellIdentifier.allCell)
+        allCell.accessoryType = .disclosureIndicator
         allCell.textLabel?.text = timesGlobal[indexPath.row]
         allCell.textLabel?.textColor = UIColor.init(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
         allCell.textLabel?.font = UIFont(name: "AvenirNext-Medium", size: 18)
@@ -109,13 +91,20 @@ class StatisticsTVC: UITableViewController, UIPickerViewDelegate, UIPickerViewDa
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        performSegue(withIdentifier: SegueIdentifier.toTimeDetailVC, sender: self)
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
+            guard var timesKey = UserDefaults.standard.stringArray(forKey: Key.times) else { return }
+            
             timesGlobal.remove(at: indexPath.row)
+            timesKey.remove(at: indexPath.row)
+            
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
         
@@ -139,26 +128,15 @@ class StatisticsTVC: UITableViewController, UIPickerViewDelegate, UIPickerViewDa
         return "All"
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print(component)
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 4
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if component == 0 {
-            return minutes.count
-        } else if component == 1 {
-            return seconds.count
-        } else if component == 2 {
-            return deciseconds.count
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == 0 {
+            return false
         }
-        return centiseconds.count
+        return true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         setupBackButton()
     }
     

@@ -16,6 +16,8 @@ class TimerVC: UIViewController {
     
     let blackView = UIView()
     
+    var scrambleStr = ""
+    
     var visualTimer    = Timer()
     var isRunning      = false
     
@@ -47,6 +49,8 @@ class TimerVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        scrambleLbl.text = scrambleMoves(21)
         
         createScreen()
         
@@ -113,7 +117,23 @@ class TimerVC: UIViewController {
         timesModel.append(totalSeconds)
         timesGlobal.insert(savedTimeRounded, at: 0)
         UserDefaults.standard.set(timesGlobal, forKey: Key.times)
-
+        
+        let dateAndTime = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMMM d, yyyy"
+        formatter.timeZone   = TimeZone.current
+        
+        let date = formatter.string(from: dateAndTime)
+        
+        formatter.dateFormat = "HH:MM"
+        let time = formatter.string(from: dateAndTime)
+        
+        print("-------------------")
+        print(date)
+        print("-------------------")
+        print(time)
+        print("-------------------")
+        print(scrambleStr)
     }
     
     func handleColorAndDecimals() {
@@ -156,6 +176,8 @@ class TimerVC: UIViewController {
     }
     
     func startVisualTimer() {
+        
+        scrambleStr  = scrambleLbl.text!
         
         minutes      = 0
         seconds      = 0
