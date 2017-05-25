@@ -11,6 +11,7 @@ import UIKit
 class StatisticsTVC: UITableViewController, UITextFieldDelegate {
     
     var stringArray = [String]()
+    var row = 0
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -23,7 +24,6 @@ class StatisticsTVC: UITableViewController, UITextFieldDelegate {
 
         let editBtn = editButtonItem
         editBtn.tintColor = UIColor.white
-        
         self.navigationItem.rightBarButtonItem = editBtn
         
     }
@@ -92,7 +92,9 @@ class StatisticsTVC: UITableViewController, UITextFieldDelegate {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        performSegue(withIdentifier: SegueIdentifier.toTimeDetailVC, sender: self)
+        row = indexPath.row
+        
+        performSegue(withIdentifier: SegueIdentifier.toTimeDetailVC, sender: row)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -136,6 +138,12 @@ class StatisticsTVC: UITableViewController, UITextFieldDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == SegueIdentifier.toTimeDetailVC {
+            if let dest = segue.destination as? TimeDetailVC {
+                dest.row = sender as! Int
+            }
+        }
+        
         
         setupBackButton()
     }

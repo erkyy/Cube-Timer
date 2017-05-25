@@ -8,5 +8,7 @@
 
 import Foundation
 
-var timesGlobal = [String]()
-var timesModel = [TimeInterval]()
+var timesScramble = [String]()
+var timesDate     = [String]()
+var timesGlobal   = [String]()
+var timesModel    = [TimeInterval]()

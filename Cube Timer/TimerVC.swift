@@ -65,7 +65,7 @@ class TimerVC: UIViewController {
         screen.frame = view.frame
         
         let longPress  = UILongPressGestureRecognizer(target: self, action: #selector(handleStopwatch(sender:)))
-        longPress.minimumPressDuration = 1
+        longPress.minimumPressDuration = 0.5
         
         let shortPress = UITapGestureRecognizer(target: self, action: #selector(handleShortPress(sender:)))
         
@@ -79,7 +79,7 @@ class TimerVC: UIViewController {
         
         if sender.state == .ended {
             timeLbl.textColor = UIColor.black
-        } else if sender.state == .began {
+        } else if sender.state == .recognized {
             timeLbl.textColor = UIColor.red
         }
         
@@ -150,6 +150,9 @@ class TimerVC: UIViewController {
         print(time)
         print("-------------------")
         print(scrambleStr)
+        
+        timesDate.insert(date, at: 0)
+        timesScramble.insert(scrambleStr, at: 0)
     }
     
     func handleColorAndDecimals() {
