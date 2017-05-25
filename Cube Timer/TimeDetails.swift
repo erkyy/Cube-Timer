@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SwiftDetails {
+class TimeDetails {
     //time, date, scramble
     
     

@@ -39,12 +39,10 @@ class TimerVC: UIViewController {
     }
     
     func setupTimerColor() {
-        let random = CGFloat(arc4random_uniform(255))
         
-        var colors: [CGFloat] = [0, 255, random]
-        colors.shuffle()
-        
-        view.backgroundColor = UIColor(red: colors[0]/255, green: colors[1]/255, blue: colors[2]/255, alpha: 1)
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: { 
+            self.view.backgroundColor = UIColor.randomized()
+        }, completion: nil)
     }
     
     override func viewDidLoad() {
@@ -65,27 +63,45 @@ class TimerVC: UIViewController {
     func createScreen() {
         let screen = UIView()
         screen.frame = view.frame
-        screen.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleStopwatch)))
+        
+        let longPress  = UILongPressGestureRecognizer(target: self, action: #selector(handleStopwatch(sender:)))
+        longPress.minimumPressDuration = 1
+        
+        let shortPress = UITapGestureRecognizer(target: self, action: #selector(handleShortPress(sender:)))
+        
+        screen.addGestureRecognizer(longPress)
+        screen.addGestureRecognizer(shortPress)
         
         view.addSubview(screen)
     }
     
-    func handleStopwatch() {
+    func handleShortPress(sender: UITapGestureRecognizer) {
         
-    
-        handleColorAndDecimals()
-        
-        if isRunning == false {
-            startVisualTimer()
-                
-            scrambleLbl.isHidden = true
-
-        } else {
-            stopTimer()
-            saveTime()
-            
-            scrambleLbl.isHidden = false
+        if sender.state == .ended {
+            timeLbl.textColor = UIColor.black
+        } else if sender.state == .began {
+            timeLbl.textColor = UIColor.red
         }
+        
+    }
+    
+    func handleStopwatch(sender: UILongPressGestureRecognizer) {
+        
+        if sender.state == .ended {
+            timeLbl.textColor = UIColor.black
+            handleColorAndDecimals()
+            if isRunning == false {
+                startVisualTimer()
+                scrambleLbl.isHidden = true
+            } else {
+                stopTimer()
+                saveTime()
+                scrambleLbl.isHidden = false
+            }
+        } else if sender.state == .began {
+            timeLbl.textColor = UIColor(red: 20/255, green: 240/255, blue: 0/255, alpha: 1)
+        }
+
     }
     
     func saveTime() {
@@ -152,7 +168,7 @@ class TimerVC: UIViewController {
             blackView.alpha = 0
             
         } else {
-            UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
                 self.blackView.alpha = 1
             }, completion: nil)
             
@@ -163,15 +179,15 @@ class TimerVC: UIViewController {
     }
     
     func dismissHalfBlack() {
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.blackView.alpha = 0
         }, completion: nil)
     }
     
     func fadeToRandomColor(_ color: UIColor, animation: UIViewAnimationOptions) {
         
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: animation, animations: {
-            self.view.backgroundColor = color
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: animation, animations: {
+            self.view.backgroundColor = UIColor.randomized()
         }, completion: nil)
     }
     
@@ -221,6 +237,11 @@ class TimerVC: UIViewController {
         
         if minutesStr != "0" {
             stopwatchStr = "\(minutesStr):\(secondsStrWith0).\(fractionsStr)"
+        }
+        
+        //remove last decimal
+        if stopwatchStr != "" {
+            stopwatchStr.remove(at: stopwatchStr.index(before: stopwatchStr.endIndex))
         }
         
         mutableStopwatchStr = NSMutableAttributedString(

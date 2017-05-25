@@ -20,7 +20,16 @@ extension Array {
 
 extension UIColor {
     public static func randomized() -> UIColor {
-        let random = CGFloat(arc4random_uniform(255)) / 255.0
-        return UIColor(hue: random, saturation: 1, brightness: 1, alpha: 1)
+        var randomArray = [CGFloat]()
+        let random1 = CGFloat(arc4random_uniform(15)) / 100
+        //0.55 to 0.75
+        let random2 = (CGFloat(arc4random_uniform(35)) + 40) / 100
+        
+        randomArray.append(random1)
+        randomArray.append(random2)
+        
+        let i = Int(arc4random_uniform(2))
+        
+        return UIColor(hue: randomArray[i], saturation: 1, brightness: 1, alpha: 1)
     }
 }
