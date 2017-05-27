@@ -10,5 +10,6 @@ import Foundation
 
 var timesScramble = [String]()
 var timesDate     = [String]()
+var timesTime     = [String]()
 var timesGlobal   = [String]()
 var timesModel    = [TimeInterval]()

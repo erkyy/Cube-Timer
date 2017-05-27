@@ -11,7 +11,6 @@
 		7C42B1DD1ED219AB00D767C2 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42B1DC1ED219AB00D767C2 /* Keys.swift */; };
 		7C9482D21ED4DFF800383A48 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9482D11ED4DFF800383A48 /* Extensions.swift */; };
 		7C9482F21ED6344500383A48 /* TimeDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9482F11ED6344500383A48 /* TimeDetailVC.swift */; };
-		7C9482F41ED6F22200383A48 /* TimeDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9482F31ED6F22200383A48 /* TimeDetails.swift */; };
 		7CED40471ECED2A6000E4694 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED40461ECED2A6000E4694 /* AppDelegate.swift */; };
 		7CED404C1ECED2A6000E4694 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CED404A1ECED2A6000E4694 /* Main.storyboard */; };
 		7CED404E1ECED2A6000E4694 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CED404D1ECED2A6000E4694 /* Assets.xcassets */; };
@@ -27,7 +26,6 @@
 		7C42B1DC1ED219AB00D767C2 /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		7C9482D11ED4DFF800383A48 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7C9482F11ED6344500383A48 /* TimeDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeDetailVC.swift; sourceTree = "<group>"; };
-		7C9482F31ED6F22200383A48 /* TimeDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeDetails.swift; sourceTree = "<group>"; };
 		7CED40431ECED2A6000E4694 /* Cube Timer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cube Timer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CED40461ECED2A6000E4694 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7CED404B1ECED2A6000E4694 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -54,7 +52,6 @@
 		7C42B1B61ED1E48E00D767C2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7C9482F31ED6F22200383A48 /* TimeDetails.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -69,10 +66,10 @@
 		7C42B1B81ED1E49A00D767C2 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				7C9482F11ED6344500383A48 /* TimeDetailVC.swift */,
-				7CED40581ECED2DD000E4694 /* StatisticsTVC.swift */,
 				7CED405A1ECED2EE000E4694 /* TimerVC.swift */,
-				7C42B1B91ED1E4C600D767C2 /* SettingsTVC.swift */,
+				7CED40581ECED2DD000E4694 /* StatisticsTVC.swift */,
+				7C9482F11ED6344500383A48 /* TimeDetailVC.swift */,
+				7C9482F51ED98A0500383A48 /* Settings */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -86,6 +83,14 @@
 				7C9482D11ED4DFF800383A48 /* Extensions.swift */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		7C9482F51ED98A0500383A48 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				7C42B1B91ED1E4C600D767C2 /* SettingsTVC.swift */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 		7CED403A1ECED2A5000E4694 = {
@@ -194,7 +199,6 @@
 			files = (
 				7CED40471ECED2A6000E4694 /* AppDelegate.swift in Sources */,
 				7CED405F1ECED3F4000E4694 /* Globals.swift in Sources */,
-				7C9482F41ED6F22200383A48 /* TimeDetails.swift in Sources */,
 				7CED405B1ECED2EE000E4694 /* TimerVC.swift in Sources */,
 				7C9482F21ED6344500383A48 /* TimeDetailVC.swift in Sources */,
 				7C9482D21ED4DFF800383A48 /* Extensions.swift in Sources */,

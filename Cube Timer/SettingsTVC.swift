@@ -18,14 +18,15 @@ class SettingsTVC: UITableViewController {
     
     func testAlert() {
         let alert = UIAlertController(title: "Remove ALL times?", message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { _ in
             self.dismiss(animated: true, completion: nil)
-            _ = self.navigationController?.popToRootViewController(animated: true)
         }))
-        alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { _ in
+            timesScramble.removeAll()
+            timesDate.removeAll()
+            timesModel.removeAll()
             timesGlobal.removeAll()
             UserDefaults.standard.removeObject(forKey: Key.times)
-            _ = self.navigationController?.popToRootViewController(animated: true)
             print("removed all times")
         }))
         
@@ -57,12 +58,12 @@ class SettingsTVC: UITableViewController {
         return 1
     }
     
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let test = UITableViewCell(style: .default, reuseIdentifier: TableViewCellIdentifier.testCell)
         
         
-        
-        return ?
+        return test
     }
-    */
+    
 }

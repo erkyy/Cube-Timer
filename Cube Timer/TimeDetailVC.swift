@@ -33,7 +33,7 @@ class TimeDetailVC: UIViewController {
         
         scrambleLbl.text = timesScramble[row]
         dateLbl.text     = timesDate[row]
-        timeLbl.text     = "12:05"
+        timeLbl.text     = timesTime[row]
     }
     
     override func viewDidLoad() {

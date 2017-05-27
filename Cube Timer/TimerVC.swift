@@ -32,6 +32,8 @@ class TimerVC: UIViewController {
     
     var mutableStopwatchStr = NSMutableAttributedString()
     
+    var isGreen = false
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
@@ -39,10 +41,7 @@ class TimerVC: UIViewController {
     }
     
     func setupTimerColor() {
-        
-        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: { 
-            self.view.backgroundColor = UIColor.randomized()
-        }, completion: nil)
+        self.view.backgroundColor = UIColor.randomized()
     }
     
     override func viewDidLoad() {
@@ -64,50 +63,84 @@ class TimerVC: UIViewController {
         let screen = UIView()
         screen.frame = view.frame
         
-        let longPress  = UILongPressGestureRecognizer(target: self, action: #selector(handleStopwatch(sender:)))
-        longPress.minimumPressDuration = 0.5
-        
-        let shortPress = UITapGestureRecognizer(target: self, action: #selector(handleShortPress(sender:)))
-        
-        screen.addGestureRecognizer(longPress)
-        screen.addGestureRecognizer(shortPress)
+        let customGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleStopwatch(sender:)))
+        customGesture.minimumPressDuration = 0
+        screen.addGestureRecognizer(customGesture)
         
         view.addSubview(screen)
     }
     
-    func handleShortPress(sender: UITapGestureRecognizer) {
-        
-        if sender.state == .ended {
-            timeLbl.textColor = UIColor.black
-        } else if sender.state == .recognized {
-            timeLbl.textColor = UIColor.red
+    private var markAsGreenWorkItem: DispatchWorkItem? {
+        didSet {
+            oldValue?.cancel() //cancel old value when a new value is set (or old value is nilled)
         }
-        
     }
     
     func handleStopwatch(sender: UILongPressGestureRecognizer) {
         
-        if sender.state == .ended {
-            timeLbl.textColor = UIColor.black
-            handleColorAndDecimals()
-            if isRunning == false {
-                startVisualTimer()
-                scrambleLbl.isHidden = true
-            } else {
-                stopTimer()
-                saveTime()
-                scrambleLbl.isHidden = false
+        switch sender.state {
+        case .began:
+            timeLbl.textColor = .red
+            isGreen = false
+            
+            scrambleLbl.isHidden = true
+            let workItem = DispatchWorkItem {
+                self.timeLbl.textColor = .green
+                self.isGreen = true
             }
-        } else if sender.state == .began {
-            timeLbl.textColor = UIColor(red: 20/255, green: 240/255, blue: 0/255, alpha: 1)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: workItem)
+            markAsGreenWorkItem = workItem
+            
+        case .possible, .changed:
+            break //no action needed
+        case .cancelled, .ended, .failed:
+            //clear work item to prevent changing to green
+            markAsGreenWorkItem = nil
+            
+            handleColorAndDecimals()
+            
+            if isGreen == true {
+                print("Green.")
+                scrambleLbl.isHidden = true
+                if isRunning == false {
+                    print("Start")
+                    startVisualTimer()
+                    scrambleLbl.isHidden = true
+                } else {
+                    print("Stop")
+                    stopTimer()
+                    scrambleLbl.isHidden = false
+                }
+            } else {
+                scrambleLbl.isHidden = false
+                print("released before!")
+                isGreen = true
+                if isRunning == false {
+                    print("not running")
+                } else {
+                    print("running")
+                }
+            }
+        
+            
+            timeLbl.textColor = .white
         }
-
+    
     }
     
     func saveTime() {
+        
+        timesModel.append(totalSeconds)
+        
         var savedTimeRounded = String(Double(round(100*totalSeconds))/100)
         
         let savedTimeDouble = Double(savedTimeRounded)!
+        
+        if timesModel.isEmpty == false {
+            if let min = timesModel.min(), savedTimeDouble < min {
+                print("PR!")
+            }
+        }
         
         if savedTimeDouble > 60.0 {
             let seconds = savedTimeDouble.truncatingRemainder(dividingBy: 60)
@@ -129,28 +162,23 @@ class TimerVC: UIViewController {
                 savedTimeRounded.append("0")
             }
         }
-        
-        timesModel.append(totalSeconds)
+    
         timesGlobal.insert(savedTimeRounded, at: 0)
         UserDefaults.standard.set(timesGlobal, forKey: Key.times)
         
-        let dateAndTime = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMMM d, yyyy"
-        formatter.timeZone   = TimeZone.current
+        let currentDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE, MMMM d, yyyy"
+        dateFormatter.timeZone   = TimeZone.current
+        let date = dateFormatter.string(from: currentDate)
         
-        let date = formatter.string(from: dateAndTime)
+        let currentTime = Date()
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm"
+        timeFormatter.timeZone = TimeZone.current
+        let time = timeFormatter.string(from: currentTime)
         
-        formatter.dateFormat = "HH:MM"
-        let time = formatter.string(from: dateAndTime)
-        
-        print("-------------------")
-        print(date)
-        print("-------------------")
-        print(time)
-        print("-------------------")
-        print(scrambleStr)
-        
+        timesTime.insert(time, at: 0)
         timesDate.insert(date, at: 0)
         timesScramble.insert(scrambleStr, at: 0)
     }
@@ -159,7 +187,7 @@ class TimerVC: UIViewController {
         
         if let window = UIApplication.shared.keyWindow {
             blackView.frame = window.frame
-            blackView.backgroundColor = UIColor(white: 1, alpha: 0.6)
+            blackView.backgroundColor = UIColor(white: 1, alpha: 0.5)
             blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleStopwatch)))
             blackView.alpha = 0
             
@@ -211,6 +239,8 @@ class TimerVC: UIViewController {
         visualTimer.invalidate() //stop
         isRunning = false
         scrambleLbl.text = scrambleMoves(21)
+        
+        saveTime()
         
     }
     
@@ -310,6 +340,15 @@ class TimerVC: UIViewController {
         let movesScrambledJoined = movesScrambled.joined(separator: "  ")
         
         return movesScrambledJoined
+    }
+    
+    func setupAlert() {
+        let alert = UIAlertController(title: "Congratulations! New PB!", message: "Would you like to view details for this solve?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+            print("go to details")
+        }))
+        alert.addAction(UIAlertAction(title: "Yes", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 
 }

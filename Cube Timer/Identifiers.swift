@@ -11,6 +11,8 @@ import Foundation
 enum TableViewCellIdentifier {
     static let averageCell = "averageCell"
     static let allCell = "allCell"
+    
+    static let testCell = "testCell"
 }
 
 enum SegueIdentifier {
