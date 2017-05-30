@@ -100,29 +100,26 @@ class TimerVC: UIViewController {
             handleColorAndDecimals()
             
             if isGreen == true {
-                print("Green.")
+                print("isgreen: true")
                 scrambleLbl.isHidden = true
                 if isRunning == false {
-                    print("Start")
+                    print("start")
                     startVisualTimer()
                     scrambleLbl.isHidden = true
+                    scrambleLbl.text = scrambleMoves(21)
                 } else {
-                    print("Stop")
-                    stopTimer()
-                    scrambleLbl.isHidden = false
+                    
                 }
             } else {
-                scrambleLbl.isHidden = false
-                print("released before!")
-                isGreen = true
-                if isRunning == false {
-                    print("not running")
-                } else {
-                    print("running")
+                dismissHalfBlack()
+                stopTimer()
+                print(totalSeconds)
+                if totalSeconds != 0.0 {
+                    saveTime()
                 }
+                isGreen = true
             }
         
-            
             timeLbl.textColor = .white
         }
     
@@ -138,7 +135,7 @@ class TimerVC: UIViewController {
         
         if timesModel.isEmpty == false {
             if let min = timesModel.min(), savedTimeDouble < min {
-                print("PR!")
+                
             }
         }
         
@@ -194,32 +191,20 @@ class TimerVC: UIViewController {
             view.addSubview(blackView)
             view.bringSubview(toFront: timeLbl)
         
-        if isRunning == true {
+            
+            if isRunning == true {
             view.backgroundColor = UIColor.randomized()
             blackView.alpha = 0
+            } else {
             
-        } else {
-            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
-                self.blackView.alpha = 1
-            }, completion: nil)
-            
-        }
-        
-    
+                
+                
+            }
         }
     }
     
     func dismissHalfBlack() {
-        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            self.blackView.alpha = 0
-        }, completion: nil)
-    }
-    
-    func fadeToRandomColor(_ color: UIColor, animation: UIViewAnimationOptions) {
-        
-        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: animation, animations: {
-            self.view.backgroundColor = UIColor.randomized()
-        }, completion: nil)
+        blackView.alpha = 0
     }
     
     func startVisualTimer() {
@@ -238,10 +223,7 @@ class TimerVC: UIViewController {
     func stopTimer() {
         visualTimer.invalidate() //stop
         isRunning = false
-        scrambleLbl.text = scrambleMoves(21)
-        
-        saveTime()
-        
+        scrambleLbl.isHidden = false
     }
     
     func updateTimer() {
@@ -347,7 +329,7 @@ class TimerVC: UIViewController {
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
             print("go to details")
         }))
-        alert.addAction(UIAlertAction(title: "Yes", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
 

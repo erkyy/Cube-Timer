@@ -23,7 +23,7 @@ class StatisticsTVC: UITableViewController, UITextFieldDelegate {
         super.viewDidLoad()
 
         let editBtn = editButtonItem
-        editBtn.tintColor = UIColor.white
+        editBtn.tintColor = UIColor(red: 0.12, green: 0.12, blue: 0.12, alpha: 1)
         self.navigationItem.rightBarButtonItem = editBtn
         
     }
@@ -149,7 +149,7 @@ class StatisticsTVC: UITableViewController, UITextFieldDelegate {
     }
     
     func setupBackButton() {
-        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = UIColor(red: 0.12, green: 0.12, blue: 0.12, alpha: 1)
     }
 
 }

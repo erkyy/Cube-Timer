@@ -22,7 +22,7 @@ extension UIColor {
     public static func randomized() -> UIColor {
         let random = (CGFloat(arc4random_uniform(32)) + 48) / 100
         
-        return UIColor(hue: random, saturation: 1, brightness: 1, alpha: 1)
+        return UIColor(hue: random, saturation: 1, brightness: 0.4, alpha: 1)
     }
 }
 

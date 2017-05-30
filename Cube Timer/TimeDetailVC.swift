@@ -27,6 +27,12 @@ class TimeDetailVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        
+        print(timesGlobal)
+        print(timesScramble)
+        print(timesDate)
+        print(timesTime)
+        
         print("Row: \(row)")
         
         self.title = timesGlobal[row]
