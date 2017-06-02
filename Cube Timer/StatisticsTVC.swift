@@ -32,9 +32,9 @@ class StatisticsTVC: UITableViewController, UITextFieldDelegate {
         
         var result = "--"
         
-        if timesGlobal.count >= of {
+        if GlobalTimes.times.count >= of {
             
-            let lastOfSlice: ArraySlice<Double> = timesModel.suffix(of)
+            let lastOfSlice: ArraySlice<Double> = GlobalTimes.model.suffix(of)
             let resultDouble = Array(lastOfSlice).reduce(0, +) / Double(of)
             let resultDoubleRounded = Double(round(100*resultDouble)/100)
             
@@ -83,7 +83,7 @@ class StatisticsTVC: UITableViewController, UITextFieldDelegate {
     
         let allCell = UITableViewCell(style: .default, reuseIdentifier: TableViewCellIdentifier.allCell)
         allCell.accessoryType = .disclosureIndicator
-        allCell.textLabel?.text = timesGlobal[indexPath.row]
+        allCell.textLabel?.text = GlobalTimes.times[indexPath.row]
         allCell.textLabel?.textColor = UIColor.init(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
         allCell.textLabel?.font = UIFont(name: "AvenirNext-Medium", size: 18)
         
@@ -104,7 +104,11 @@ class StatisticsTVC: UITableViewController, UITextFieldDelegate {
         if editingStyle == .delete {
             guard var timesKey = UserDefaults.standard.stringArray(forKey: Key.times) else { return }
             
-            timesGlobal.remove(at: indexPath.row)
+            GlobalTimes.times.remove(at: indexPath.row)
+            GlobalTimes.date.remove(at: indexPath.row)
+            GlobalTimes.scramble.remove(at: indexPath.row)
+            GlobalTimes.time.remove(at: indexPath.row)
+            GlobalTimes.model.remove(at: indexPath.row)
             timesKey.remove(at: indexPath.row)
             
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -116,7 +120,7 @@ class StatisticsTVC: UITableViewController, UITextFieldDelegate {
         if section == 0 {
             return 2
         }
-        return timesGlobal.count
+        return GlobalTimes.times.count
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

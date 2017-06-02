@@ -10,4 +10,8 @@ import UIKit
 
 enum Key {
     static let times = "times"
+    static let scramble = "scramble"
+    static let date = "date"
+    static let time = "time"
+    
 }

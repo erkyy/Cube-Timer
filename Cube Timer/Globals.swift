@@ -8,8 +8,10 @@
 
 import Foundation
 
-var timesScramble = [String]()
-var timesDate     = [String]()
-var timesTime     = [String]()
-var timesGlobal   = [String]()
-var timesModel    = [TimeInterval]()
+struct GlobalTimes {
+    static var times   = [String]()
+    static var scramble = [String]()
+    static var date     = [String]()
+    static var time     = [String]()
+    static var model    = [TimeInterval]()
+}

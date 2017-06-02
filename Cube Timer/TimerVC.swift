@@ -102,14 +102,10 @@ class TimerVC: UIViewController {
             if isGreen == true {
                 print("isgreen: true")
                 scrambleLbl.isHidden = true
-                if isRunning == false {
-                    print("start")
-                    startVisualTimer()
-                    scrambleLbl.isHidden = true
-                    scrambleLbl.text = scrambleMoves(21)
-                } else {
-                    
-                }
+                print("start")
+                startVisualTimer()
+                scrambleLbl.isHidden = true
+                scrambleLbl.text = scrambleMoves(21)
             } else {
                 dismissHalfBlack()
                 stopTimer()
@@ -127,15 +123,15 @@ class TimerVC: UIViewController {
     
     func saveTime() {
         
-        timesModel.append(totalSeconds)
+        GlobalTimes.times.append(String(totalSeconds))
         
         var savedTimeRounded = String(Double(round(100*totalSeconds))/100)
         
         let savedTimeDouble = Double(savedTimeRounded)!
         
-        if timesModel.isEmpty == false {
-            if let min = timesModel.min(), savedTimeDouble < min {
-                
+        if GlobalTimes.times.isEmpty == false {
+            if let min = GlobalTimes.model.min(), savedTimeDouble < min {
+                print("pr")
             }
         }
         
@@ -160,8 +156,11 @@ class TimerVC: UIViewController {
             }
         }
     
-        timesGlobal.insert(savedTimeRounded, at: 0)
-        UserDefaults.standard.set(timesGlobal, forKey: Key.times)
+        GlobalTimes.times.insert(savedTimeRounded, at: 0)
+        UserDefaults.standard.set(GlobalTimes.times, forKey: Key.times)
+        UserDefaults.standard.set(GlobalTimes.scramble, forKey: Key.scramble)
+        UserDefaults.standard.set(GlobalTimes.date, forKey: Key.date)
+        UserDefaults.standard.set(GlobalTimes.time, forKey: Key.time)
         
         let currentDate = Date()
         let dateFormatter = DateFormatter()
@@ -175,9 +174,9 @@ class TimerVC: UIViewController {
         timeFormatter.timeZone = TimeZone.current
         let time = timeFormatter.string(from: currentTime)
         
-        timesTime.insert(time, at: 0)
-        timesDate.insert(date, at: 0)
-        timesScramble.insert(scrambleStr, at: 0)
+        GlobalTimes.time.insert(time, at: 0)
+        GlobalTimes.date.insert(date, at: 0)
+        GlobalTimes.scramble.insert(scrambleStr, at: 0)
     }
     
     func handleColorAndDecimals() {

@@ -17,10 +17,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         print("Application launched!")
         
-        guard let timesKey = UserDefaults.standard.stringArray(forKey: Key.times) else { return true }
+        guard var timesKey = UserDefaults.standard.stringArray(forKey: Key.times) else { return true }
+        guard var scrambleKey = UserDefaults.standard.stringArray(forKey: Key.scramble) else { return true }
+        guard var dateKey = UserDefaults.standard.stringArray(forKey: Key.date) else { return true }
+        guard var timeKey = UserDefaults.standard.stringArray(forKey: Key.time) else { return true }
+            
+        for time in timesKey {
+            GlobalTimes.times.append(time)
+        }
         
-        for timeKey in timesKey {
-            timesGlobal.append(timeKey)
+        for scramble in scrambleKey {
+            GlobalTimes.scramble.append(scramble)
+        }
+        
+        for date in dateKey {
+            GlobalTimes.date.append(date)
+        }
+        
+        for time in timeKey {
+            GlobalTimes.time.append(time)
         }
         
         return true

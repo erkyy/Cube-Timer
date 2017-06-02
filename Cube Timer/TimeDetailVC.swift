@@ -27,19 +27,18 @@ class TimeDetailVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        
-        print(timesGlobal)
-        print(timesScramble)
-        print(timesDate)
-        print(timesTime)
-        
         print("Row: \(row)")
         
-        self.title = timesGlobal[row]
+        print(GlobalTimes.times)
+        print(GlobalTimes.date)
+        print(GlobalTimes.time)
+        print(GlobalTimes.scramble)
         
-        scrambleLbl.text = timesScramble[row]
-        dateLbl.text     = timesDate[row]
-        timeLbl.text     = timesTime[row]
+        self.title = GlobalTimes.times[row]
+        
+        scrambleLbl.text = GlobalTimes.scramble[row]
+        dateLbl.text     = GlobalTimes.date[row]
+        timeLbl.text     = GlobalTimes.time[row]
     }
     
     override func viewDidLoad() {
